@@ -126,6 +126,8 @@ object ChartView {
     def update(): Unit =
       chart.foreach(_.update(()))
 
+    val zipVar = Var("")
+
     def element(): HtmlElement =
       // The actual canvas takes the left half of the container
       div(
@@ -151,7 +153,37 @@ object ChartView {
           cls := "w-1/2 h-full p-3 ml-2",
           span(
             cls := "text-2xl font-bold",
-            "Some Diagram info"
+            "Diagram Config 2"
+          ),
+          div(
+            form(
+              onSubmit.preventDefault
+                .mapTo(zipVar.now()) --> (zip => dom.window.alert(zip)),
+              p(
+                label("Zip code: "),
+                input(
+                  placeholder("12345"),
+                  maxLength(5),  // HTML can help block some undesired input
+                  controlled(
+                    value <-- zipVar,
+                    onInput.mapToValue.filter(_.forall(Character.isDigit)) --> zipVar
+                  )
+                ),
+                button(
+                  typ("button"), // HTML buttons are of type "submit" by default
+                  "Set SF zip code",
+                  onClick.mapTo("94110") --> zipVar
+                )
+              ),
+              p(
+                "Your zip code: ",
+                child.text <-- zipVar
+              ),
+              // Using the form element's onSubmit in this example,
+              // but you could also respond on button click if you
+              // don't want a form element
+              button(typ("submit"), "Submit")
+            )
           )
         )
       )
