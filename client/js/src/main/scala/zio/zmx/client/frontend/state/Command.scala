@@ -28,6 +28,7 @@ object Command {
     case AddDiagram(d) => AppState.dashboardConfig.update(cfg => cfg.copy(diagrams = cfg.diagrams :+ d))
 
     case UpdateDiagram(d) =>
+      //replicating same logic as AddDiagram, for testing pusposes
       AppState.dashboardConfig.update { cfg =>
         // diagrams to be updated
         cfg.copy(diagrams = cfg.diagrams :+ d)
