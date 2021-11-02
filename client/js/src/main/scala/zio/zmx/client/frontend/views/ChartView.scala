@@ -128,7 +128,8 @@ object ChartView {
     def update(): Unit =
       chart.foreach(_.update(()))
 
-    val zipVar = Var("")
+    val zipVar  = Var("")
+    val zipVar2 = Var("")
 
     def element(): HtmlElement =
       // The actual canvas takes the left half of the container
@@ -160,8 +161,13 @@ object ChartView {
           form(
             cls := "text-2xl m-2",
             onSubmit.preventDefault
-              //use here the command
-              .mapTo(zipVar.now()) --> (zip => dom.window.alert(zip)),
+              .mapTo(zipVar.now()) --> (zip => {
+              println(s"HERE ${zip}")
+              // I need to generate a
+              // Command.AddDiagram(DiagramConfig.fromWhatExactly????())
+              dom.window.alert(zip)
+            }),
+            // onClick.map(_ => Command.AddDiagram(DiagramConfig.fromMetricKey(k))) --> Command.observer
             p(
               label(
                 cls := "m-2",
@@ -188,8 +194,8 @@ object ChartView {
                     "Refresh"
                   ),
                   controlled(
-                    value <-- zipVar,
-                    onInput.mapToValue --> zipVar
+                    value <-- zipVar2,
+                    onInput.mapToValue --> zipVar2
                   )
                 )
               )
