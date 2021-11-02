@@ -1,8 +1,11 @@
 package zio.zmx.client.frontend.views
 
+import zio._
+
 import com.raquo.laminar.api.L._
 import org.scalajs.dom.ext.Color
 import zio.zmx.client.MetricsMessage
+import zio.zmx.client.frontend.state.AppState
 import scala.util.Random
 
 import zio.zmx.client.frontend.model._
