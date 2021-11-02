@@ -14,6 +14,12 @@ import scala.collection.mutable
 import zio.zmx.client.frontend.model._
 import zio.zmx.client.frontend.utils.Implicits._
 
+import zio.zmx.client.frontend.model.MetricSummary._
+import zio.zmx.client.frontend.utils.Implicits._
+import zio.zmx.client.frontend.model.DiagramConfig
+import zio.zmx.client.frontend.state.Command
+import zio.zmx.client.frontend.state.AppState
+
 /**
  * A chart represents the visible graphs within a ChartView. At this point we are
  * simply exposing the update method of chart.js, so that we can manipulate the config
@@ -154,6 +160,7 @@ object ChartView {
           form(
             cls := "text-2xl m-2",
             onSubmit.preventDefault
+              //use here the command
               .mapTo(zipVar.now()) --> (zip => dom.window.alert(zip)),
             p(
               label(
