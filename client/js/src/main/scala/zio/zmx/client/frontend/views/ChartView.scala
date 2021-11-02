@@ -167,7 +167,6 @@ object ChartView {
               // Command.UpdateDiagram(DiagramConfig.from?????)
               dom.window.alert(zip)
             }),
-            // onClick.map(_ => Command.AddDiagram(DiagramConfig.fromMetricKey(k))) --> Command.observer
             p(
               label(
                 cls := "m-2",
