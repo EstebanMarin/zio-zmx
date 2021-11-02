@@ -164,7 +164,7 @@ object ChartView {
               .mapTo(zipVar.now()) --> (zip => {
               println(s"HERE ${zip}")
               // I need to generate a
-              // Command.AddDiagram(DiagramConfig.fromWhatExactly????())
+              // Command.UpdateDiagram(DiagramConfig.from?????)
               dom.window.alert(zip)
             }),
             // onClick.map(_ => Command.AddDiagram(DiagramConfig.fromMetricKey(k))) --> Command.observer
