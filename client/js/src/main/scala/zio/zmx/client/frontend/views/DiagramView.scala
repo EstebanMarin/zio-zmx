@@ -54,6 +54,9 @@ object DiagramView {
               cls := "text-2xl font-bold my-2",
               s"A diagram for ${cfg.title}"
             ),
+            //
+            // Put the form here!
+            // Signal available here
             div(
               chart.element()
             )

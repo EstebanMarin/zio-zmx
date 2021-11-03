@@ -164,7 +164,7 @@ object ChartView {
               .mapTo(zipVar.now()) --> (zip => {
               println(s"HERE ${zip}")
               // I need to generate a
-              // Command.UpdateDiagram(DiagramConfig.from?????)
+              // Command.UpdateDiagram(DiagramConfig.from ?????)
               dom.window.alert(zip)
             }),
             p(
@@ -181,23 +181,23 @@ object ChartView {
                   value <-- zipVar,
                   onInput.mapToValue --> zipVar
                 )
-              ),
-              p(
-                label(
-                  cls := "m-2",
-                  "Refresh"
-                ),
-                input(
-                  cls := "m-2 rounded px-2 text-black",
-                  placeholder(
-                    "Refresh"
-                  ),
-                  controlled(
-                    value <-- zipVar2,
-                    onInput.mapToValue --> zipVar2
-                  )
-                )
               )
+              // p(
+              //   label(
+              //     cls := "m-2",
+              //     "Refresh"
+              //   ),
+              //   input(
+              //     cls := "m-2 rounded px-2 text-black",
+              //     placeholder(
+              //       "Refresh"
+              //     ),
+              //     controlled(
+              //       value <-- zipVar2,
+              //       onInput.mapToValue --> zipVar2
+              //     )
+              //   )
+              // )
             ),
             // Using the form element's onSubmit in this example,
             // but you could also respond on button click if you
