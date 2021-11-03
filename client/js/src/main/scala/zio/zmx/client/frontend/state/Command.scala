@@ -27,12 +27,14 @@ object Command {
 
     case AddDiagram(d) => AppState.dashboardConfig.update(cfg => cfg.copy(diagrams = cfg.diagrams :+ d))
 
-    case UpdateTitleDiagram(d, _) =>
-    // //replicating same logic as AddDiagram, for testing pusposes
-    // AppState.dashboardConfig.update { cfg =>
-    //   // diagrams to be updated
-    //   cfg.copy(diagrams = cfg.diagrams :+ d)
-    // }
+    case UpdateTitleDiagram(d: DiagramConfig, title: String) =>
+      // create updated Diagram same ID but with updated title
+      AppState.dashboardConfig.update { cfg =>
+        // diagrams to be updated
+        val updatedDiagram = DiagramConfig(id = d.id, title = title, metric = d.metric, refresh = d.refresh)
+        val discartedValue = cfg.diagrams.filter(dc => dc.id != d.id)
+        cfg.copy(diagrams = discartedValue :+ updatedDiagram)
+      }
 
     case RecordData(msg) =>
       MetricSummary.fromMessage(msg) match {
