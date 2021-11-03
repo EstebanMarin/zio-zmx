@@ -9,11 +9,11 @@ sealed trait Command
 
 object Command {
 
-  case object Disconnect                               extends Command
-  final case class Connect(url: String)                extends Command
-  final case class AddDiagram(cfg: DiagramConfig)      extends Command
-  final case class RecordData(msg: MetricsMessage)     extends Command
-  final case class UpdateDiagram(upCfg: DiagramConfig) extends Command
+  case object Disconnect                                                   extends Command
+  final case class Connect(url: String)                                    extends Command
+  final case class AddDiagram(cfg: DiagramConfig)                          extends Command
+  final case class RecordData(msg: MetricsMessage)                         extends Command
+  final case class UpdateTitleDiagram(upCfg: DiagramConfig, title: String) extends Command
 
   val observer = Observer[Command] {
     case Disconnect =>
@@ -27,12 +27,12 @@ object Command {
 
     case AddDiagram(d) => AppState.dashboardConfig.update(cfg => cfg.copy(diagrams = cfg.diagrams :+ d))
 
-    case UpdateDiagram(d) =>
-      //replicating same logic as AddDiagram, for testing pusposes
-      AppState.dashboardConfig.update { cfg =>
-        // diagrams to be updated
-        cfg.copy(diagrams = cfg.diagrams :+ d)
-      }
+    case UpdateTitleDiagram(d, _) =>
+    // //replicating same logic as AddDiagram, for testing pusposes
+    // AppState.dashboardConfig.update { cfg =>
+    //   // diagrams to be updated
+    //   cfg.copy(diagrams = cfg.diagrams :+ d)
+    // }
 
     case RecordData(msg) =>
       MetricSummary.fromMessage(msg) match {

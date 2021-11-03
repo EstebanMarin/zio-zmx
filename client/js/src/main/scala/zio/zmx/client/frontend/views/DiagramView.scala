@@ -4,12 +4,14 @@ import zio._
 
 import com.raquo.laminar.api.L._
 import org.scalajs.dom.ext.Color
+import org.scalajs.dom
 import zio.zmx.client.MetricsMessage
 import zio.zmx.client.frontend.state.AppState
 import scala.util.Random
 
 import zio.zmx.client.frontend.model._
 import zio.zmx.client.frontend.state.MessageHub
+import zio.zmx.client.frontend.state.Command
 
 /**
  * A DiagramView is implemented as a Laminar element and is responsible for initializing and updating
@@ -37,6 +39,8 @@ object DiagramView {
     // the element() method
     private val chart: ChartView.ChartView = ChartView.ChartView()
 
+    val zipVar = Var("")
+
     def render(): HtmlElement =
       div(
         child <-- $cfg.map { cfg =>
@@ -54,17 +58,31 @@ object DiagramView {
               cls := "text-2xl font-bold my-2",
               s"A diagram for ${cfg.title}"
             ),
-            //
-            // Put the form here!
-            // Signal available here
             div(
               cls := "flex",
               chart.element(),
               div(
                 cls := "w-1/2 h-full p-3 ml-2",
-                span(
-                  cls := "text-xl font-bold",
-                  s"Diagram Config for: ${cfg.title}"
+                form(
+                  onSubmit.preventDefault
+                    .mapTo(zipVar.now()) --> (zip => {
+                    Command.UpdateTitleDiagram(cfg, zip)
+                    dom.window.alert(zip)
+                  }),
+                  p(
+                    label("Title: "),
+                    input(
+                      placeholder(s"${cfg.title}"),
+                      controlled(
+                        value <-- zipVar,
+                        onInput.mapToValue --> zipVar
+                      )
+                    )
+                  ),
+                  // Using the form element's onSubmit in this example,
+                  // but you could also respond on button click if you
+                  // don't want a form element
+                  button(typ("submit"), "Submit")
                 )
               )
             )
