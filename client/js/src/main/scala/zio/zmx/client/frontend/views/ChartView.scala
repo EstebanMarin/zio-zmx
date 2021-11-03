@@ -14,12 +14,6 @@ import scala.collection.mutable
 import zio.zmx.client.frontend.model._
 import zio.zmx.client.frontend.utils.Implicits._
 
-import zio.zmx.client.frontend.model.MetricSummary._
-import zio.zmx.client.frontend.utils.Implicits._
-import zio.zmx.client.frontend.model.DiagramConfig
-import zio.zmx.client.frontend.state.Command
-import zio.zmx.client.frontend.state.AppState
-
 /**
  * A chart represents the visible graphs within a ChartView. At this point we are
  * simply exposing the update method of chart.js, so that we can manipulate the config
@@ -128,15 +122,14 @@ object ChartView {
     def update(): Unit =
       chart.foreach(_.update(()))
 
-    val zipVar  = Var("")
-    val zipVar2 = Var("")
+    // val zipVar  = Var("")
 
     def element(): HtmlElement =
       // The actual canvas takes the left half of the container
       div(
-        cls := "bg-gray-900 text-gray-50 rounded my-3 p-3 h-80 flex",
+        cls := "w-1/2 bg-gray-900 text-gray-50 rounded my-3 p-3 h-80 flex",
         div(
-          cls := "w-1/2 h-full rounded bg-gray-50 p-3",
+          cls := "h-full rounded bg-gray-50 p-3",
           div(
             div(
               cls := "h-full",
@@ -150,60 +143,6 @@ object ChartView {
               )
             )
           )
-        ),
-        // This is the place holder for a form that will allow us to manipulate the settings of the Chartview
-        div(
-          cls := "w-1/2 h-full p-3 ml-2",
-          span(
-            cls := "text-xl font-bold",
-            "Diagram Config"
-          ),
-          form(
-            cls := "text-2xl m-2",
-            onSubmit.preventDefault
-              .mapTo(zipVar.now()) --> (zip => {
-              println(s"HERE ${zip}")
-              // I need to generate a
-              // Command.UpdateDiagram(DiagramConfig.from ?????)
-              dom.window.alert(zip)
-            }),
-            p(
-              label(
-                cls := "m-2",
-                "Title "
-              ),
-              input(
-                cls := "m-2 rounded px-2 text-black",
-                placeholder(
-                  "Title"
-                ),
-                controlled(
-                  value <-- zipVar,
-                  onInput.mapToValue --> zipVar
-                )
-              )
-              // p(
-              //   label(
-              //     cls := "m-2",
-              //     "Refresh"
-              //   ),
-              //   input(
-              //     cls := "m-2 rounded px-2 text-black",
-              //     placeholder(
-              //       "Refresh"
-              //     ),
-              //     controlled(
-              //       value <-- zipVar2,
-              //       onInput.mapToValue --> zipVar2
-              //     )
-              //   )
-              // )
-            ),
-            // Using the form element's onSubmit in this example,
-            // but you could also respond on button click if you
-            // don't want a form element
-            button(typ("submit"), "Submit")
-          )
         )
       )
 
@@ -211,3 +150,57 @@ object ChartView {
   }
 
 }
+
+// div(
+//   cls := "w-1/2 h-full p-3 ml-2",
+//   span(
+//     cls := "text-xl font-bold",
+//     "Diagram Config"
+//   ),
+//   form(
+//     cls := "text-2xl m-2",
+//     onSubmit.preventDefault
+//       .mapTo(zipVar.now()) --> (zip => {
+//       println(s"HERE ${zip}")
+//       // I need to generate a
+//       // Command.UpdateDiagram(DiagramConfig.from ?????)
+//       dom.window.alert(zip)
+//     }),
+//     p(
+//       label(
+//         cls := "m-2",
+//         "Title "
+//       ),
+//       input(
+//         cls := "m-2 rounded px-2 text-black",
+//         placeholder(
+//           "Title"
+//         ),
+//         controlled(
+//           value <-- zipVar,
+//           onInput.mapToValue --> zipVar
+//         )
+//       )
+//       // p(
+//       //   label(
+//       //     cls := "m-2",
+//       //     "Refresh"
+//       //   ),
+//       //   input(
+//       //     cls := "m-2 rounded px-2 text-black",
+//       //     placeholder(
+//       //       "Refresh"
+//       //     ),
+//       //     controlled(
+//       //       value <-- zipVar2,
+//       //       onInput.mapToValue --> zipVar2
+//       //     )
+//       //   )
+//       // )
+//     ),
+//     // Using the form element's onSubmit in this example,
+//     // but you could also respond on button click if you
+//     // don't want a form element
+//     button(typ("submit"), "Submit")
+//   )
+// )

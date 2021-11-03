@@ -58,7 +58,15 @@ object DiagramView {
             // Put the form here!
             // Signal available here
             div(
-              chart.element()
+              cls := "flex",
+              chart.element(),
+              div(
+                cls := "w-1/2 h-full p-3 ml-2",
+                span(
+                  cls := "text-xl font-bold",
+                  s"Diagram Config for: ${cfg.title}"
+                )
+              )
             )
           )
         }
