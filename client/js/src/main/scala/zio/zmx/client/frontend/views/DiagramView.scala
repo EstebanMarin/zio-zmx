@@ -1,12 +1,8 @@
 package zio.zmx.client.frontend.views
 
-import zio._
-
 import com.raquo.laminar.api.L._
 import org.scalajs.dom.ext.Color
-import org.scalajs.dom
 import zio.zmx.client.MetricsMessage
-import zio.zmx.client.frontend.state.AppState
 import scala.util.Random
 
 import zio.zmx.client.frontend.model._
@@ -55,12 +51,8 @@ object DiagramView {
             }),
             cls := "bg-gray-900 text-gray-50 rounded my-3 p-3",
             span(
-              "Hello, "
-              // child.text <-- AppState.dashboardConfig.signal.map(_.diagrams.filter(d => d.id == cfg.id))
-            ),
-            span(
               cls := "text-2xl font-bold my-2",
-              s"A diagram for ${cfg.title}"
+              cfg.title
             ),
             div(
               cls := "flex",
@@ -68,11 +60,9 @@ object DiagramView {
               div(
                 cls := "w-1/2 h-full p-3 ml-2",
                 form(
-                  onSubmit.preventDefault
-                    .mapTo(zipVar.now()) --> (zip => {
-                    Command.UpdateTitleDiagram(cfg, zip)
-                    dom.window.alert(zip)
-                  }),
+                  onSubmit.preventDefault.mapTo(
+                    Command.UpdateDiagram(cfg.copy(title = zipVar.now()))
+                  ) --> Command.observer,
                   p(
                     label("Title: "),
                     input(

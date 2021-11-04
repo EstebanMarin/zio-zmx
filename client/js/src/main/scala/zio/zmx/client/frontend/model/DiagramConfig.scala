@@ -18,12 +18,15 @@ final case class DiagramConfig(
   // The metrics that shall be displayed in the configured diagram
   metric: Chunk[MetricKey],
   // The update interval
-  refresh: Duration
+  refresh: Duration,
+  // Display index in UI
+  displayIndex: Int
 )
 
 object DiagramConfig {
   def fromMetricKey(k: MetricKey) =
-    DiagramConfig(UUID.randomUUID().toString, k.longName, Chunk(k), Duration.ofSeconds(5))
+    // TODO update display index
+    DiagramConfig(UUID.randomUUID().toString, k.longName, Chunk(k), Duration.ofSeconds(5), 1)
 }
 
 /**
